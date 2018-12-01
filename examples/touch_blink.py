@@ -2,9 +2,17 @@ import mraa
 import time
 print(mraa.getVersion())
 
-led = mraa.Gpio(31)
-led.dir(mraa.DIR_OUT)
-led.write(0)
+green_led = mraa.Gpio(31)
+green_led.dir(mraa.DIR_OUT)
+green_led.write(0)
+
+yellow_led = mraa.Gpio(33)
+yellow_led.dir(mraa.DIR_OUT)
+yellow_led.write(0)
+
+led3 = mraa.Gpio(34)
+led3.dir(mraa.DIR_OUT)
+led3.write(0)
 
 time_delay = 3
 touch = mraa.Gpio(29)
@@ -15,10 +23,22 @@ while True:
     touchButton = int(touch.read())
     if(touchButton == 1):
         print("touch!")
-        print("touch   " + str(touchButton) + "  led " + str(led.read()))
         toggle = not toggle
-        time.sleep(time_delay)
         if toggle:
-            led.write(1)
+            time.sleep(time_delay)
+            green_led.write(1)
+            print("green")
+            time.sleep(time_delay)
+            green_led.write(0)
+            yellow_led.write(1)
+            print("yellow")
+            time.sleep(time_delay)
+            yellow_led.write(0)
+            led3.write(1)
+            print("last")
+            #TODO send signal to REST endpoint
         else:
-            led.write(0)
+            time.sleep(time_delay)
+            green_led.write(0)
+            yellow_led.write(0)
+            led3.write(0)
