@@ -28,7 +28,7 @@ touch.dir(mraa.DIR_IN)
 toggle = False
 
 while True:
-    if(int(touch.read()) == 1):
+    if(int(touch.read()) == 1 and int(led3.read()) == 0):
         print("touch!")
         welcomeMessage=client.messages.create(
             to=my_num,
@@ -93,22 +93,20 @@ while True:
                                     to=my_num,
                                     from_=twilio_num,
                                     body="You wore it between two and five weeks! It hasn't been ages but still don't let this get to the back of the closet. This was removed at "+str(time.ctime(int(time.time()))))
-
                                 toggle = not toggle
-
                                 time.sleep(2)
                             elif toggle: 
+                                print("purple")
                                 led3.write(1)
                                 purpleMessage=client.messages.create(
                                         to=my_num,
                                         from_=twilio_num,
                                         body="You haven't worn this in more than a month. I'd suggest you wear this more or donate it."+str(time.ctime(int(time.time()))))
-        else:
-            finalMessage=client.messages.create(
-                to=my_num,
-                from_=twilio_num,
-                body="After a very long time you're wearing it. hopefully you're either wearing it more or donating it. "
-            )
-            green_led.write(0)
-            yellow_led.write(0)
-            led3.write(0)
+    elif int(led3.read()) == 1 and int(touch.read()) == 1:
+        led3.write(0)
+        toggle = False
+        finalMessage=client.messages.create(
+            to=my_num,
+            from_=twilio_num,
+            body="After a very long time you're wearing it. hopefully you're either wearing it more or donating it. ")
+        time.sleep(2)
