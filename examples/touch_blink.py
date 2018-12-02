@@ -22,7 +22,7 @@ led3 = mraa.Gpio(27)
 led3.dir(mraa.DIR_OUT)
 led3.write(0)
 
-time_delay = 3
+time_delay = 7
 touch = mraa.Gpio(29)
 touch.dir(mraa.DIR_IN)
 toggle = False
@@ -38,7 +38,7 @@ while True:
         toggle = not toggle
         was_touched = False
         timeout = time.time() + time_delay
-        time.sleep(5)
+        time.sleep(2)
         if toggle:
             while timeout > time.time():
                 if int(touch.read()) == 1:
@@ -51,7 +51,7 @@ while True:
                     body="Clothing taken at " + str(time.ctime(int(time.time())))+". You hung this up recently so you must wear this a lot!")
                 print("taken from hanger")
                 toggle = not toggle
-                time.sleep(5)
+                time.sleep(2)
             elif toggle:
                 messageGreen = client.messages.create(
                     to=my_num,
@@ -60,7 +60,7 @@ while True:
                 green_led.write(1)
                 print("green")
                 timeout = time.time() + time_delay
-                time.sleep(5)
+                time.sleep(2)
                 if toggle:
                     while timeout > time.time():
                         if int(touch.read()) == 1:
@@ -71,7 +71,7 @@ while True:
 
                         print("clothing placed on hanger")
                         toggle = not toggle
-                        time.sleep(5)
+                        time.sleep(2)
                     elif toggle:
                         yellowMessage=client.messages.create(
                             to=my_num,
@@ -81,7 +81,7 @@ while True:
                         yellow_led.write(1)
                         print("yellow")
                         timeout = time.time() + time_delay
-                        time.sleep(5)
+                        time.sleep(2)
                         if toggle:
                             while timeout > time.time():
                                 if int(touch.read()) == 1:
@@ -96,7 +96,7 @@ while True:
 
                                 toggle = not toggle
 
-                                time.sleep(5)
+                                time.sleep(2)
                             elif toggle: 
                                 led3.write(1)
                                 purpleMessage=client.messages.create(
